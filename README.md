@@ -1,1 +1,1 @@
-# 7-days-java
+# 7-days-of-java
