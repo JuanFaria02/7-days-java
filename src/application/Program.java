@@ -1,6 +1,7 @@
 package application;
 
-import exceptions.DomainException;
+import model.entities.Movie;
+import model.exceptions.DomainException;
 
 import java.io.IOException;
 import java.net.URI;
@@ -9,10 +10,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -40,16 +38,16 @@ public class Program {
             String[] moviesArray = parseJsonMovies(json);
 
             List<String> titles = parseTitles(moviesArray);
-            titles.forEach(System.out::println);
-
             List<String> urlImages = parseUrlImage(moviesArray);
-            urlImages.forEach(System.out::println);
-
             List<String> years = parseYears(moviesArray);
-            years.forEach(System.out::println);
-
             List<String> rating = parseRating(moviesArray);
-            rating.forEach(System.out::println);
+
+
+            List<Movie> movieList= new ArrayList<>();
+            for (int i = 0; i < moviesArray.length; i++) {
+                movieList.add(new Movie(titles.get(i), urlImages.get(i), rating.get(i), years.get(i)));
+            }
+            movieList.forEach(System.out::println);
         }
         catch (URISyntaxException e) {
             System.out.println(e.getMessage());
