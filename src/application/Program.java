@@ -1,9 +1,12 @@
 package application;
 
+import model.entities.HTMLGenerator;
 import model.entities.Movie;
 import model.exceptions.DomainException;
 
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
@@ -11,11 +14,10 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 
 public class Program {
-    private static final String api_key = "k_q848jpl0";
+    private static final String api_key = "IMDB_API_KEY";
     private static final String URL = "https://imdb-api.com/en/API/Top250Movies/";
 
     public static void main(String[] args) {
@@ -35,12 +37,12 @@ public class Program {
             String json = (String) response.body();
             System.out.println(json);
 
-            String[] moviesArray = parseJsonMovies(json);
+            String[] moviesArray = Movie.parseJsonMovies(json);
 
-            List<String> titles = parseTitles(moviesArray);
-            List<String> urlImages = parseUrlImage(moviesArray);
-            List<String> years = parseYears(moviesArray);
-            List<String> rating = parseRating(moviesArray);
+            List<String> titles = Movie.parseTitles(moviesArray);
+            List<String> urlImages = Movie.parseUrlImage(moviesArray);
+            List<String> years = Movie.parseYears(moviesArray);
+            List<String> rating = Movie.parseRating(moviesArray);
 
 
             List<Movie> movieList= new ArrayList<>();
@@ -48,6 +50,12 @@ public class Program {
                 movieList.add(new Movie(titles.get(i), urlImages.get(i), rating.get(i), years.get(i)));
             }
             movieList.forEach(System.out::println);
+
+
+            PrintWriter pw = new PrintWriter(new FileWriter("C:\\Users\\Casa\\Documents\\7-days-of-java\\7-days-of-java\\view\\index.html"));
+            HTMLGenerator htmlMovies = new HTMLGenerator(pw);
+            htmlMovies.generate(movieList);
+            pw.close();
         }
         catch (URISyntaxException e) {
             System.out.println(e.getMessage());
@@ -63,39 +71,4 @@ public class Program {
         }
     }
 
-    private static  String[] parseJsonMovies(String json) {
-
-        String[] moviesArray = json.substring(11).split("\\},\\{");
-        int last = moviesArray.length - 1;
-        String lastString = moviesArray[last];
-        moviesArray[last] = lastString.substring(0, 370);
-        for (int i = 0; i < moviesArray.length; i++) {
-            System.out.println(moviesArray[i]);
-        }
-        return moviesArray;
-    }
-
-    private static List<String> parseTitles(String[] moviesArray) {
-        return parseAttribute(moviesArray, 3);
-    }
-    private static List<String> parseUrlImage(String[] moviesArray) {
-        return parseAttribute(moviesArray, 5);
-    }
-
-    private static List<String> parseYears(String[] moviesArray) {
-        return parseAttribute(moviesArray, 4);
-    }
-
-    private static List<String> parseRating(String[] moviesArray) {
-        return parseAttribute(moviesArray, 7);
-    }
-
-
-    private static List<String> parseAttribute(String[] moviesArray, int pos) {
-        return Stream.of(moviesArray)
-                .map(e -> e.split("\",\"")[pos])
-                .map(e -> e.split(":\"")[1])
-                .map(e-> e.replaceAll("\"", ""))
-                .collect(Collectors.toList());
-    }
 }
