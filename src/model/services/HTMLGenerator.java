@@ -1,4 +1,6 @@
-package model.entities;
+package model.services;
+
+import model.entities.Movie;
 
 import java.io.IOException;
 import java.io.Writer;
