@@ -1,9 +1,7 @@
 package model.entities;
 
 
-import java.util.List;
-
-public class Movie implements Content {
+public class Movie implements Content, Comparable<Content> {
     private String title;
     private String urlImage;
     private String rating;
@@ -35,7 +33,6 @@ public class Movie implements Content {
         return year;
     }
 
-
     @Override
     public String toString() {
         return "Movie {" +
@@ -45,4 +42,17 @@ public class Movie implements Content {
                 ", year :" + year +
                 '}';
     }
+
+    @Override
+    public int compareTo(Content other) {
+        int compare = this.getTitle().compareTo(other.getTitle());
+        if (compare < 0) {
+            return - 1;
+        }
+        else if (compare > 0) {
+            return 1;
+        }
+        else return 0;
+    }
+
 }

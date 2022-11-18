@@ -9,6 +9,8 @@ import model.services.ImdbApiParser;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -26,15 +28,12 @@ public class Program {
         ImdbApiParser parser = new ImdbApiParser(json);
         List<Movie> movies = (List<Movie>) parser.parse();
 
-
-        try (PrintWriter pw = new PrintWriter(new FileWriter("C:\\Users\\Casa\\Documents\\7-days-of-java\\7-days-of-java\\view\\index.html"));){
+        Collections.sort(movies);
+        try (PrintWriter pw = new PrintWriter(new FileWriter("C:\\Users\\Casa\\Documents\\7-days-of-java\\7-days-of-java\\view\\index.html"));) {
             HTMLGenerator htmlMovies = new HTMLGenerator(pw);
             htmlMovies.generate(movies);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
-
 }
