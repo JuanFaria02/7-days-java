@@ -29,7 +29,7 @@ public class Program {
         List<Movie> movies = (List<Movie>) parser.parse();
 
         Collections.sort(movies);
-        try (PrintWriter pw = new PrintWriter(new FileWriter("C:\\Users\\Casa\\Documents\\7-days-of-java\\7-days-of-java\\view\\index.html"));) {
+        try (PrintWriter pw = new PrintWriter(new FileWriter("C:\\Users\\55219\\Documents\\7-days-of-java\\7-days-of-java\\view\\index.html"));) {
             HTMLGenerator htmlMovies = new HTMLGenerator(pw);
             htmlMovies.generate(movies);
         } catch (IOException e) {
