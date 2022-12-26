@@ -30,3 +30,7 @@ No dia 5 o desafio é para estudar o encapsulamento. O HTML foi gerado e encapsu
 ## Dia 6
 
 O objetivo do dia 6 é deixar o código mais genérico possível para ser possível receber dados de outras APIs e para isso será utilizado **Interfaces**. A interface para filmes será chamada *Content* e para o parseamento será *JsonParser*.
+
+## Dia 7
+
+O objetivo do dia 7 é ordenar os filmes da api da forma em que achar melhor, no caso eu as ordenei por ordem alfabética. Ao finalizar esse desafio de 7 dias meu conhecimento sobre a linguagem java e o consumo de APIs foi aumentado consideravelmente e a evolução foi bastante satisfatória. 
